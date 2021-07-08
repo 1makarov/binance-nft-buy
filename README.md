@@ -11,7 +11,8 @@ mysterybox:
   time: 08/07/2021 18:22:01 (only UTC)
 ```
 
-##Config example:
+## Config example:
+
 ```yaml
 proxy: 0P5yHk:2NTbv6h2rd@46.8.56.158:3000
 headers:
