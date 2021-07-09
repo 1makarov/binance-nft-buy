@@ -6,9 +6,11 @@ import (
 )
 
 func (c *Client) Start() {
+	req, httpclient := c.api.GenerateRequest(c.mysteryBox)
+
 	c.waitSell()
 
-	if err := c.api.MysteryBoxBuy(c.mysteryBox); err != nil {
+	if err := c.api.MysteryBoxBuy(req, httpclient); err != nil {
 		log.Fatalln(err)
 	}
 }

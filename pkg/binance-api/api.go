@@ -1,13 +1,13 @@
 package binanceapi
 
 type Api struct {
-	proxy string
+	proxy   string
 	headers Headers
 }
 
 func CreateApi(proxy string, headers Headers) *Api {
 	return &Api{
-		proxy: proxy,
+		proxy:   proxy,
 		headers: headers,
 	}
 }

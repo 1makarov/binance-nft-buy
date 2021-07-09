@@ -6,24 +6,30 @@ import (
 )
 
 type Headers struct {
-	ClientType      string
-	Cookie          string
-	CsrfToken       string
-	UserAgent       string
+	ClientType string
+	Cookie     string
+	CsrfToken  string
+	UserAgent  string
 }
 
-func (a *Api) postRequest(url string, b []byte) (*fasthttp.Response, error) {
+const buyurl = "https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase"
+
+func (a *Api) GenerateRequest(b []byte) (*fasthttp.Request, *fasthttp.Client) {
 	req := fasthttp.AcquireRequest()
 	a.headers.initHeaders(req)
 	req.Header.SetMethod("POST")
-	req.Header.SetRequestURI(url)
+	req.Header.SetRequestURI(buyurl)
 	req.Header.SetContentType("application/json")
-	req.SetBody(b)
-	resp := fasthttp.AcquireResponse()
 	client := fasthttp.Client{}
 	if a.proxy != "" {
 		client.Dial = fasthttpproxy.FasthttpHTTPDialer(a.proxy)
 	}
+	req.SetBody(b)
+	return req, &client
+}
+
+func (a *Api) postRequest(req *fasthttp.Request, client *fasthttp.Client) (*fasthttp.Response, error) {
+	resp := fasthttp.AcquireResponse()
 	if err := client.Do(req, resp); err != nil {
 		return nil, err
 	}

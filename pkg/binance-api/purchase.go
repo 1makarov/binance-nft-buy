@@ -5,13 +5,10 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-const (
-	mysteryBoxBuyURL      = "https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase"
-	errorStatusCodeNot200 = "status code %d, %s"
-)
+const errorStatusCodeNot200 = "status code %d, %s"
 
-func (a *Api) MysteryBoxBuy(body []byte) error {
-	resp, err := a.postRequest(mysteryBoxBuyURL, body)
+func (a *Api) MysteryBoxBuy(req *fasthttp.Request, client *fasthttp.Client) error {
+	resp, err := a.postRequest(req, client)
 	if err != nil {
 		return err
 	}
