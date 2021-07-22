@@ -12,20 +12,22 @@ type Headers struct {
 	UserAgent  string
 }
 
-const buyurl = "https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase"
-
-func (a *Api) GenerateRequest(b []byte) (*fasthttp.Request, *fasthttp.Client) {
+func (a *Api) GenerateRequest(url string, b []byte) *fasthttp.Request {
 	req := fasthttp.AcquireRequest()
 	a.headers.initHeaders(req)
 	req.Header.SetMethod("POST")
-	req.Header.SetRequestURI(buyurl)
+	req.Header.SetRequestURI(url)
 	req.Header.SetContentType("application/json")
-	client := fasthttp.Client{}
+	req.SetBody(b)
+	return req
+}
+
+func (a *Api) GenerateHttpClient() *fasthttp.Client {
+	client := &fasthttp.Client{}
 	if a.proxy != "" {
 		client.Dial = fasthttpproxy.FasthttpHTTPDialer(a.proxy)
 	}
-	req.SetBody(b)
-	return req, &client
+	return client
 }
 
 func (a *Api) postRequest(req *fasthttp.Request, client *fasthttp.Client) (*fasthttp.Response, error) {

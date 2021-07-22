@@ -12,14 +12,14 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	headers := binanceapi.Headers{
+	headers := &binanceapi.Headers{
 		ClientType: viper.GetString("headers.clientType"),
 		Cookie:     viper.GetString("headers.cookie"),
 		CsrfToken:  viper.GetString("headers.csrfToken"),
 		UserAgent:  viper.GetString("headers.userAgent"),
 	}
 
-	box := binance.MysteryBox{
+	box := &binanceapi.MysteryBox{
 		Productid: viper.GetString("mysterybox.id"),
 		Volume:    viper.GetInt("mysterybox.amount"),
 	}
@@ -35,7 +35,6 @@ func main() {
 }
 
 func initConfigs() error {
-	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	return viper.ReadInConfig()
