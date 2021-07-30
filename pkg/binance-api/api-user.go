@@ -5,7 +5,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-func (a *Api) UserId() (*userresponse, error) {
+func (a *Api) User() (*userresponse, error) {
 	req := a.GenerateRequest(URLinfo, nil)
 	client := a.GenerateHttpClient()
 	resp, err := a.postRequest(req, client)

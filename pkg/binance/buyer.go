@@ -12,7 +12,7 @@ func (c *Client) Start() {
 	// generate request to get info
 	req := c.api.GenerateRequest(binanceapi.URLinfo, nil)
 	// get user id (check cookie)
-	user, err := c.api.UserId()
+	user, err := c.api.User()
 	if err != nil {
 		log.Fatalln(err)
 	}

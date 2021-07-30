@@ -1,6 +1,5 @@
 ```text
-Если всплывает ошибка по типу "Config File "config" Not Found", 
-стоит попробовать перекинуть файл config.yaml в папку binance-nft-buy/cmd/buy
+Инструкция + ошибки - https://telegra.ph/Nastrojka-httpsgithubcom1makarovbinance-nft-buy-07-30-2
 ```
 
 ```yaml
