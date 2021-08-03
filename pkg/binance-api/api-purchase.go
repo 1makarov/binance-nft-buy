@@ -18,7 +18,7 @@ func (a *Api) MysteryBoxBuy(req *fasthttp.Request, client *fasthttp.Client) erro
 
 type MysteryBox struct {
 	Volume    int    `json:"number"`
-	Productid string `json:"productId"`
+	ProductId string `json:"productId"`
 }
 
 func MarshalBoxBuy(box *MysteryBox) *[]byte {

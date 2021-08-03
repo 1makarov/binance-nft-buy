@@ -5,8 +5,8 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-func (a *Api) User() (*userresponse, error) {
-	req := a.GenerateRequest(URLinfo, nil)
+func (a *Api) User() (*userResponse, error) {
+	req := a.GenerateRequest(URLInfo, nil)
 	client := a.GenerateHttpClient()
 	resp, err := a.postRequest(req, client)
 	if err = handleError(resp, err); err != nil {
@@ -19,14 +19,14 @@ func (a *Api) User() (*userresponse, error) {
 	return user, nil
 }
 
-type userresponse struct {
+type userResponse struct {
 	Data struct {
-		Agentid uint64 `json:"agentId"`
+		Email string `json:"email"`
 	} `json:"data"`
 }
 
-func (a *Api) unmarshalUser(resp *fasthttp.Response) (*userresponse, error) {
-	var response userresponse
+func (a *Api) unmarshalUser(resp *fasthttp.Response) (*userResponse, error) {
+	var response userResponse
 	err := json.Unmarshal(resp.Body(), &response)
 	if err != nil {
 		return nil, err

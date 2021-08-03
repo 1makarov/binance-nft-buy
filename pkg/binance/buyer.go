@@ -9,21 +9,19 @@ import (
 
 func (c *Client) Start() {
 	defer fmt.Scanf("\n")
-	// generate request to get info
-	req := c.api.GenerateRequest(binanceapi.URLinfo, nil)
 	// get user id (check cookie)
 	user, err := c.api.User()
 	if err != nil {
 		log.Fatalln(err)
 	}
 	// notification for cookie
-	notification(user.Data.Agentid)
+	notification(user.Data.Email)
 	// generate httpclient
 	httpclient := c.api.GenerateHttpClient()
 	// generate bytes from json
 	box := binanceapi.MarshalBoxBuy(c.mysteryBox)
 	// generate request to buy box
-	req = c.api.GenerateRequest(binanceapi.URLbuy, *box)
+	req := c.api.GenerateRequest(binanceapi.URLBuy, *box)
 	// handle time from config
 	t := c.handleTime()
 	// wait buy time
@@ -34,8 +32,8 @@ func (c *Client) Start() {
 	}
 }
 
-func notification(id uint64) {
-	log.Println(fmt.Sprintf("You have entered working cookies, your ID: %d", id))
+func notification(email string) {
+	log.Println(fmt.Sprintf("You have entered working cookies, your email: %s", email))
 }
 
 func waitBuyTime(t time.Time) {

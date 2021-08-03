@@ -1,8 +1,8 @@
 package binanceapi
 
 const (
-	URLbuy  = "https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase"
-	URLinfo = "https://www.binance.com/bapi/accounts/v1/private/account/user/base-detail"
+	URLBuy  = "https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase"
+	URLInfo = "https://www.binance.com/bapi/accounts/v1/private/account/user/base-detail"
 
 	errorStatusCodeNot200 = "status code %d, %s"
 )
