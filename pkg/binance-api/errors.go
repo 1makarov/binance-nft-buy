@@ -5,6 +5,10 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+const (
+	errorStatusCodeNot200 = "status code %d, %s"
+)
+
 func handleError(resp *fasthttp.Response, err error) error {
 	if err != nil {
 		return err

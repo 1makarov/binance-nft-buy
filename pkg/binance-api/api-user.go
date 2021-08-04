@@ -6,9 +6,7 @@ import (
 )
 
 func (a *Api) User() (*userResponse, error) {
-	req := a.GenerateRequest(URLInfo, nil)
-	client := a.GenerateHttpClient()
-	resp, err := a.postRequest(req, client)
+	resp, err := a.postRequest(a.GenerateRequest(URLInfo, nil))
 	if err = handleError(resp, err); err != nil {
 		return nil, err
 	}

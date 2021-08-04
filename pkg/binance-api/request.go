@@ -22,17 +22,28 @@ func (a *Api) GenerateRequest(url string, b []byte) *fasthttp.Request {
 	return req
 }
 
-func (a *Api) GenerateHttpClient() *fasthttp.Client {
+func (a *Api) get(url string) (*fasthttp.Response, error) {
+	req := fasthttp.AcquireRequest()
+	req.Header.SetMethod("GET")
+	req.Header.SetRequestURI(url)
+	resp := fasthttp.AcquireResponse()
+	if err := fasthttp.Do(req, resp); err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (a *Api) GenerateHttpClient() {
 	client := &fasthttp.Client{}
 	if a.proxy != "" {
 		client.Dial = fasthttpproxy.FasthttpHTTPDialer(a.proxy)
 	}
-	return client
+	a.httpclient.client = client
 }
 
-func (a *Api) postRequest(req *fasthttp.Request, client *fasthttp.Client) (*fasthttp.Response, error) {
+func (a *Api) postRequest(req *fasthttp.Request) (*fasthttp.Response, error) {
 	resp := fasthttp.AcquireResponse()
-	if err := client.Do(req, resp); err != nil {
+	if err := a.httpclient.client.Do(req, resp); err != nil {
 		return nil, err
 	}
 	return resp, nil

@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-func (a *Api) MysteryBoxBuy(req *fasthttp.Request, client *fasthttp.Client) error {
-	resp, err := a.postRequest(req, client)
+func (a *Api) MysteryBoxBuy(req *fasthttp.Request) error {
+	resp, err := a.postRequest(req)
 	if err = handleError(resp, err); err != nil {
 		return err
 	}
@@ -17,14 +17,14 @@ func (a *Api) MysteryBoxBuy(req *fasthttp.Request, client *fasthttp.Client) erro
 }
 
 type MysteryBox struct {
-	Volume    int    `json:"number"`
+	Amount    int    `json:"number"`
 	ProductId string `json:"productId"`
 }
 
-func MarshalBoxBuy(box *MysteryBox) *[]byte {
+func MarshalBoxBuy(box MysteryBox) []byte {
 	b, err := json.Marshal(box)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	return &b
+	return b
 }

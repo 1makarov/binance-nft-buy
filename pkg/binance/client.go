@@ -5,15 +5,11 @@ import (
 )
 
 type Client struct {
-	api        *binanceapi.Api
-	mysteryBox *binanceapi.MysteryBox
-	time       string
+	api *binanceapi.Api
 }
 
-func CreateClient(api *binanceapi.Api, mysteryBox *binanceapi.MysteryBox, time string) *Client {
+func CreateClient(api *binanceapi.Api) *Client {
 	return &Client{
-		api:        api,
-		mysteryBox: mysteryBox,
-		time:       time,
+		api: api,
 	}
 }

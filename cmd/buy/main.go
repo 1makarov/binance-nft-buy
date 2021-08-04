@@ -19,16 +19,10 @@ func main() {
 		UserAgent:  viper.GetString("headers.userAgent"),
 	}
 
-	box := &binanceapi.MysteryBox{
-		ProductId: viper.GetString("mysterybox.id"),
-		Volume:    viper.GetInt("mysterybox.amount"),
-	}
-
-	time := viper.GetString("mysterybox.time")
 	proxy := viper.GetString("proxy")
 
 	api := binanceapi.CreateApi(proxy, headers)
-	client := binance.CreateClient(api, box, time)
+	client := binance.CreateClient(api)
 
 	client.Start()
 }
