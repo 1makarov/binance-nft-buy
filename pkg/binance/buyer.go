@@ -51,19 +51,19 @@ func handleNFTInfo(b *binanceapi.NftInfoResponse) binanceapi.Box {
 }
 
 func getQuantity() (quantity int) {
-	fmt.Print("Quantity to buy?\t")
+	fmt.Print("Quantity to buy? ")
 	fmt.Fscan(os.Stdin, &quantity)
 	return
 }
 
 func getDelay() (delay int64) {
-	fmt.Print("How many seconds delay?\t")
+	fmt.Print("How many seconds delay? ")
 	fmt.Fscan(os.Stdin, &delay)
 	return
 }
 
 func getSaleNumber() (number int) {
-	fmt.Print("Enter the sale number:\t")
+	fmt.Print("Enter the sale number: ")
 	fmt.Fscan(os.Stdin, &number)
 	return
 }
@@ -74,7 +74,7 @@ func notification(email string) {
 
 func waitBuyTime(starttime, delay int64) {
 	for {
-		if time.Now().UTC().Unix() >= starttime+(delay) {
+		if time.Now().UTC().Unix() >= starttime+delay {
 			return
 		}
 	}
