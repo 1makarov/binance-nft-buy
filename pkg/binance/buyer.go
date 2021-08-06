@@ -25,7 +25,10 @@ func (c *Client) Start() {
 		log.Fatalln(err)
 	}
 	// handle nft
-	box := handleNFTInfo(nftInfo)
+	box, err := handleNFTInfo(nftInfo)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	//generate bytes from json
 	boxjson := binanceapi.MarshalBoxBuy(binanceapi.MysteryBox{
 		ProductId: box.Productid,
@@ -41,13 +44,18 @@ func (c *Client) Start() {
 	}
 }
 
-func handleNFTInfo(b *binanceapi.NftInfoResponse) binanceapi.Box {
+func handleNFTInfo(b *binanceapi.NftInfoResponse) (*binanceapi.Box, error) {
+	var v int
 	for i, box := range b.Boxes {
 		if box.MappingStatus == -1 {
 			fmt.Println(fmt.Sprintf("%d. %s", i+1, box.Name))
+			v++
 		}
 	}
-	return b.Boxes[getSaleNumber()].Box
+	if v == 0 {
+		return nil, errorNoSale
+	}
+	return &b.Boxes[getSaleNumber()].Box, nil
 }
 
 func getQuantity() (quantity int) {
@@ -74,7 +82,7 @@ func notification(email string) {
 
 func waitBuyTime(starttime, delay int64) {
 	for {
-		if time.Now().UTC().Unix() >= starttime+delay {
+		if time.Now().UTC().Unix() >= starttime/1000+delay {
 			return
 		}
 	}
