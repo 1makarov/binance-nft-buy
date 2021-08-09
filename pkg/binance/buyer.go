@@ -73,7 +73,7 @@ func getDelay() (delay int64) {
 func getSaleNumber() (number int) {
 	fmt.Print("Enter the sale number: ")
 	fmt.Fscan(os.Stdin, &number)
-	return
+	return number - 1
 }
 
 func notification(email string) {
