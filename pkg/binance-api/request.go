@@ -1,57 +1,51 @@
-package binanceapi
+package bapi
 
 import (
 	"github.com/valyala/fasthttp"
-	"github.com/valyala/fasthttp/fasthttpproxy"
 )
 
-type Headers struct {
-	ClientType string
-	Cookie     string
-	CsrfToken  string
-	UserAgent  string
+
+func (api *Api) get(url string) (*fasthttp.Response, error) {
+	r := fasthttp.AcquireRequest()
+	api.request.CopyTo(r)
+	r.Header.SetRequestURI(url)
+	r.Header.SetMethod(fasthttp.MethodGet)
+	resp := fasthttp.AcquireResponse()
+	if err := api.http.Do(r, resp); err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
-func (a *Api) GenerateRequest(url string, b []byte) *fasthttp.Request {
+func getPublic(url string) (*fasthttp.Response, error) {
+	r := fasthttp.AcquireRequest()
+	r.Header.SetRequestURI(url)
+	r.Header.SetMethod(fasthttp.MethodGet)
+	resp := fasthttp.AcquireResponse()
+	if err := fasthttp.Do(r, resp); err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (api *Api) post(url string, body []byte) (*fasthttp.Response, error) {
 	req := fasthttp.AcquireRequest()
-	a.headers.initHeaders(req)
-	req.Header.SetMethod("POST")
+	api.request.CopyTo(req)
 	req.Header.SetRequestURI(url)
+	req.Header.SetMethod(fasthttp.MethodPost)
 	req.Header.SetContentType("application/json")
-	req.SetBody(b)
-	return req
-}
-
-func (a *Api) get(url string) (*fasthttp.Response, error) {
-	req := fasthttp.AcquireRequest()
-	req.Header.SetMethod("GET")
-	req.Header.SetRequestURI(url)
+	req.SetBody(body)
 	resp := fasthttp.AcquireResponse()
-	if err := fasthttp.Do(req, resp); err != nil {
+	if err := api.http.Do(req, resp); err != nil {
 		return nil, err
 	}
 	return resp, nil
 }
 
-func (a *Api) GenerateHttpClient() {
-	client := &fasthttp.Client{}
-	if a.proxy != "" {
-		client.Dial = fasthttpproxy.FasthttpHTTPDialer(a.proxy)
-	}
-	a.httpclient.client = client
-}
-
-func (a *Api) postRequest(req *fasthttp.Request) (*fasthttp.Response, error) {
+func (api *Api) postRequest(req *fasthttp.Request) (*fasthttp.Response, error) {
 	resp := fasthttp.AcquireResponse()
-	if err := a.httpclient.client.Do(req, resp); err != nil {
+	if err := api.http.Do(req, resp); err != nil {
 		return nil, err
 	}
 	return resp, nil
-}
-
-func (h *Headers) initHeaders(r *fasthttp.Request) {
-	r.Header.Set("clienttype", h.ClientType)
-	r.Header.Set("cookie", h.Cookie)
-	r.Header.Set("csrftoken", h.CsrfToken)
-	r.Header.Set("user-agent", h.UserAgent)
 }
