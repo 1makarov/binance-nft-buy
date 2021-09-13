@@ -12,7 +12,8 @@ import (
 
 func main() {
 	if err := initEnv(); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return
 	}
 
 	a, err := account.InitAccount(acc.Setting{
@@ -21,21 +22,30 @@ func main() {
 	})
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return
 	}
 
 	if err = a.HandleAccount(); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return
 	}
 
 	boxList, err := mysterybox.GetActiveMysteryBoxList()
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return
 	}
 
-	box := boxList.SelectBox()
+	box, err := boxList.SelectBox()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
 	if err = box.InitBox(); err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return
 	}
 
 	app.App(a, box)

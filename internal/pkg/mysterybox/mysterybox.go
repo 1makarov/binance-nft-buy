@@ -32,7 +32,10 @@ func GetActiveMysteryBoxList() (*MysteryBox, error) {
 	return &MysteryBox{BoxList: b}, nil
 }
 
-func (b *MysteryBox) SelectBox() *Box {
+func (b *MysteryBox) SelectBox() (*Box, error) {
+	if len(b.BoxList) <= 0 {
+		return nil, fmt.Errorf("There are no sales at the moment")
+	}
 	for i, v := range b.BoxList {
 		fmt.Println(fmt.Sprintf("%d. %s", i, v.Box.Name))
 	}
@@ -41,7 +44,7 @@ func (b *MysteryBox) SelectBox() *Box {
 		v, ok := b.BoxList[n]
 		if ok {
 			fmt.Println("The sale was successfully selected")
-			return &v
+			return &v, nil
 		}
 		fmt.Println("There is no sale under this number..")
 	}
