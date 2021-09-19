@@ -1,4 +1,6 @@
-# Bot for automatic purchase of boxes
+## Bot for automatic purchase of boxes
+
+# At the moment, the app is not working!
 
 ```text
 Setting - https://telegra.ph/Setting-Binance-NFT-Buy-09-01
